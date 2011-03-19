@@ -1,0 +1,76 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/10-Routing
+
+foto:
+  class:            sfDoctrineRouteCollection
+  options:
+    model:          GuaulogFoto
+#    column:         id
+    module:         fotos
+  prefix_path:      /fotos/:mes/:anio
+  requirements:
+    mes:            \d+
+    anio:           \d+
+
+detalle:
+  class:            sfDoctrineRouteCollection
+  options:
+    model:          GuaulogDetalle
+#    column:         id
+    module:         detalles
+  prefix_path:      /detalles/:mes/:anio
+  requirements:
+    mes:            \d+
+    anio:           \d+
+
+entrada:
+  class:            sfDoctrineRouteCollection
+  options:
+    model:          GuaulogEntrada
+    module:         entrada
+  prefix_path:      /entrada
+  requirements:
+    id:             \d+
+#    mes:            \d+
+#    anio:           \d+
+
+entrada_index:
+  url:                /entrada/index/
+  param:              { module: entrada, action: index }
+
+entrada_show:
+  url:                /entrada/:mes/:anio
+  class:              sfDoctrineRoute
+  options:
+    model:            GuaulogEntrada
+    type:             object
+  param:              { module: entrada, action: show }
+  requirements:
+    mes:              \d+
+    anio:             \d+
+
+# sf_guard_password:
+#   url:                /request_password
+#   param:              { module: sfGuardAuth, action: password }
+
+# sf_guard_forgot_password:
+#   url:                /forgot_password
+#   param:              { module: sfGuardAuth, action: forgot_password }
+
+# sf_guard_register:
+#   url:                /request_register
+#   param:              { module: sfGuardAuth, action: register }
+
+# default rules
+homepage:
+  url:   /
+  param: { module: entrada, action: index }
+
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

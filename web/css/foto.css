@@ -1,0 +1,17 @@
+/**
+* CSS para fotos
+*/
+
+/*Formularios*/
+div.foto_form
+{
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    text-align:center;
+}
+table.foto_form
+{
+    margin: auto;
+    text-align: center;
+}

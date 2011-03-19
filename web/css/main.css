@@ -1,0 +1,135 @@
+html, body
+{
+    margin: 2px;
+    padding: 0;
+    height: 100%;
+}
+
+body
+{
+    background: #FF66FF url('/uploads/lili_pad_transp_pink.jpg') fixed;
+    font-family: "Verdana", Verdana, sans-serif;
+    font-size: xx-large;
+}
+
+select
+{
+    font-size: medium;
+}
+
+label
+{
+    font-size: x-large;
+}
+
+button
+{
+    font-size: medium;
+}
+
+.loginButton
+{
+    font-size: x-large;
+}
+
+.showButton
+{
+    font-size: medium;
+}
+
+.detailButton
+{
+    font-size: small;
+    vertical-align:top;
+}
+
+textarea
+{
+    font-size: x-large;
+}
+
+input
+{
+    font-size: x-large;
+}
+
+a
+{
+    color: black;
+    font-style: italic;
+    font-size: medium;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+a:hover
+{
+    color: blue;
+}
+
+div.flash_notice
+{
+    color: #57ff1f;
+    background-color: black;
+    font-size: medium;
+}
+
+div.flash_error
+{
+    color: red;
+    background-color: black;
+    font-size: medium;
+}
+
+div.div_title
+{
+    position: relative;
+}
+div.div_title img
+{
+    vertical-align: bottom;
+    border: 0px;
+}
+div.div_title a
+{
+    font-size: x-large;
+}
+
+.content
+{
+    display: table;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.error
+{
+    font-size: medium;
+    color: red;
+    background-color: black;
+}
+.error li
+{
+    list-style-type: none;
+}
+
+div.login
+{
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+}
+.nombre
+{
+    font-size: 350%;
+    letter-spacing: -10px;
+    font-style: italic;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+}
+table.login
+{
+    margin: auto;
+    text-align: center;
+}

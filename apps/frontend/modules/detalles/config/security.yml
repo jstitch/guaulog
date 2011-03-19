@@ -1,0 +1,17 @@
+all:
+  is_secure: true
+
+update:
+  credentials: admin
+
+edit:
+  credentials: admin
+
+create:
+  credentials: admin
+
+new:
+  credentials: admin
+
+delete:
+  credentials: admin

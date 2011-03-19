@@ -1,0 +1,17 @@
+/**
+* CSS para detalles
+*/
+
+/*Formularios*/
+div.detalle_form
+{
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    text-align:center;
+}
+table.detalle_form
+{
+    margin: auto;
+    text-align: center;
+}

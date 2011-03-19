@@ -1,0 +1,57 @@
+GuaulogEntrada:
+  actAs:
+    Timestampable: ~
+    Sluggable:
+      fields: [mes, anio]
+  columns:
+    mes:  { type: integer, notnull: true }
+    anio: { type: integer, notnull: true }
+    mide: { type: decimal, notnull: true, default: 0.0 }
+    pesa: { type: decimal, notnull: true, default: 0.0 }
+    pc:   { type: decimal, notnull: true, default: 0 }
+    foto: { type: integer, notnull: false, default: null }
+  indexes:
+    mesanio:
+      fields: [mes, anio]
+      type:   unique
+  relations:
+    GuaulogDetalles:
+      type:    many
+      class:   GuaulogDetalle
+      local:   id
+      foreign: entrada_id
+    GuaulogFotos:
+      type:    many
+      class:   GuaulogFoto
+      local:   id
+      foreign: entrada_id
+    GuaulogFoto:
+      local:   foto
+      foreign: id
+      onDelete: SET NULL
+
+GuaulogDetalle:
+  actAs:
+    Timestampable: ~
+  columns:
+    id:         { type: integer, notnull: true, primary: true, autoincrement: true }
+    entrada_id: { type: integer, notnull: true, primary: true }
+    detalle:    { type: string(255), notnull: true }
+  relations:
+    GuaulogEntrada:
+      local:    entrada_id
+      foreign:  id
+      onDelete: CASCADE
+
+GuaulogFoto:
+  actAs:
+    Timestampable: ~
+  columns:
+    id:         { type: integer, notnull: true, primary: true, autoincrement: true }
+    entrada_id: { type: integer, notnull: true, primary: true }
+    foto:       { type: string(255), notnull: true }
+  relations:
+    GuaulogEntrada:
+      local:    entrada_id
+      foreign:  id
+      onDelete: CASCADE
