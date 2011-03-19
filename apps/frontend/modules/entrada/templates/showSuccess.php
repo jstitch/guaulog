@@ -4,10 +4,10 @@
   <div class="nav-prev">
   <?php if ($entrada->hasAnterior()): ?>
     <?php echo GuaulogUtil::link_or_button('Anterior',
-                                           'entrada/show' ,
-                                           array('query_string' => http_build_query(array(
-											  'mes' => $entrada->getAnterior()->getMes(),
-											  'anio' => $entrada->getAnterior()->getAnio())),
+                                           'entrada/show?' .http_build_query(array(
+										   'mes' => $entrada->getAnterior()->getMes(),
+										   'anio' => $entrada->getAnterior()->getAnio())),
+                                           array(
 						 'id' => 'Anterior',
 						 'class' => 'showButton')) ?>
   <?php endif ?>
