@@ -4,6 +4,6 @@
 NUEVA FOTO
 <br />
 <?php echo strtoupper($form->getEntrada()->getNombreMes()) . " " . $form->getEntrada()->getAnio() ?>
-<?php include_partial('form', array('form' => $form, 'register' => $register/*, 'toindex' => $toindex*/)) ?>
-<?php include_partial('cancelform', array('entrada' => $form->getEntrada(), 'register' => $register/*, 'toindex' => $toindex*/)) ?>
+<?php include_partial('form', array('form' => $form, 'register' => $register/*, 'toindex' => $toindex*/, 'entrada' => $form->getEntrada(), 'textoCancelar' => 'Cancelar')) ?>
+<?php /*include_partial('cancelform', array('entrada' => $form->getEntrada(), 'register' => $register/*, 'toindex' => $toindex*//*))*/ ?>
 </div>
