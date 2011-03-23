@@ -11,11 +11,11 @@
   <table class="entrada_form">
     <tfoot>
       <tr>
-        <td style="text-align: right;">
+        <td class="right">
           <input type="submit" value="<?php echo 'OK' ?>" class="showButton" />
           </form>
         </td>
-        <td style="text-align: left;">
+        <td class="left">
           <?php if (isset($entrada)): ?>
             <form action="<?php echo url_for('entrada/show?' . http_build_query(array('mes'=>$entrada->getMes(), 'anio'=>$entrada->getAnio()))) ?>">
           <?php else: ?>

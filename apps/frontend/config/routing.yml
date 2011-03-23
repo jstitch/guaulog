@@ -37,6 +37,8 @@ entrada:
 entrada_index:
   url:                /entrada/index/
   param:              { module: entrada, action: index }
+  options:
+    method:           get
 
 entrada_show:
   url:                /entrada/:mes/:anio

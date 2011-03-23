@@ -40,7 +40,9 @@
       <div class="ver" id="div-ver">
         <br />
         <?php try {if ($form->getWidget('mes') != null): ?>
-          <?php echo $form->renderFormTag('entrada/index/') ?>
+ <?php /*echo form_tag_for($form, '@entrada_index')*/ ?>
+ <?php /*echo form_tag_for($form, 'entrada/index')*/ ?>
+ <?php echo $form->renderFormTag('entrada/index/') ?>
             <table align="center" id="entrada_form">
               <tr>
                 <th class="label"><?php echo $form['mes']->renderLabel() ?></th>

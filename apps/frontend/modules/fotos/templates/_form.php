@@ -5,7 +5,7 @@
   <table class="foto_form">
     <tfoot>
       <tr>
-        <td style="text-align:right;">
+        <td class="right">
           <?php /*if (isset($toindex)): ?>
             <input type="hidden" name="toindex" id="toindex" value="<?php echo $toindex ?>" />
           <?php endif*/ ?>
@@ -15,7 +15,7 @@
           <input type="submit" value="<?php echo 'OK' ?>" class="showButton" />
           </form>
         </td>
-        <td style="text-align:left;">
+        <td class="left">
           <?php /*if (isset($toindex)): ?>
             <?php echo button_to($texto, 'foto',
 	                         array('query_string' =>
