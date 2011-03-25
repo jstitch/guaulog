@@ -81,6 +81,33 @@ $browser->get('/')->click('OK', array('signin' => array('username' => 'admin', '
   info('  1.5 - Seleccionar una fecha sin entrada relacionada marca error')->
   with('form')->begin()->
     hasGlobalError("¡No existe registro para la fecha indicada!")->
+  end()->
+  with('response')->begin()->
+    isRedirected()->
+  end()->
+  followRedirect()->
+  with('request')->begin()->
+    isParameter('module', 'entrada')->
+    isParameter('action', 'index')->
+  end()->
+  with('response')->begin()->
+    checkElement('div.flash_error', '/¡No existe registro para la fecha indicada!/')->
+  end()->
+  info('  1.6 - Seleccionar luego de error una entrada existente no provoca error')->
+  click('Ver', array('guaulog_entrada' => array('mes' => '12',
+						'anio' => '2010'
+						)))->
+  with('response')->begin()->
+    isRedirected()->
+  end()->
+  followRedirect()->
+  with('request')->begin()->
+    isParameter('module', 'entrada')->
+    isParameter('action', 'show')->
+  end()->
+  with('response')->begin()->
+    isStatusCode(200)->
+    checkElement('div.fecha', '/DICIEMBRE 2010/')->
   end()
 ;
 
