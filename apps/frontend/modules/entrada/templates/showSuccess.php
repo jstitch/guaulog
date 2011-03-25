@@ -4,9 +4,7 @@
   <div class="nav-prev">
   <?php if ($entrada->hasAnterior()): ?>
     <?php echo GuaulogUtil::link_or_button('Anterior',
-                                           'entrada/show?' .http_build_query(array(
-										   'mes' => $entrada->getAnterior()->getMes(),
-										   'anio' => $entrada->getAnterior()->getAnio())),
+                                           '@entrada_show?' . http_build_query(array('slug' => $entrada->getAnterior()->getSlug())),
                                            array(
 						 'id' => 'Anterior',
 						 'class' => 'showButton')) ?>
@@ -15,10 +13,9 @@
   <div class="nav-sig">
   <?php if ($entrada->hasSiguiente()): ?>
     <?php echo GuaulogUtil::link_or_button('Siguiente',
-                                           'entrada/show?' . http_build_query(array(
-										    'mes' => $entrada->getSiguiente()->getMes(),
-										    'anio' => $entrada->getSiguiente()->getAnio())),
-                                           array('id' => 'Siguiente',
+                                           '@entrada_show?' . http_build_query(array('slug' => $entrada->getSiguiente()->getSlug())),
+                                           array(
+						 'id' => 'Siguiente',
 						 'class' => 'showButton')) ?>
   <?php endif ?>
   </div>
@@ -51,14 +48,13 @@
 
     <div class="botones-show detailButton">
       <div class="salir">
-        <?php echo GuaulogUtil::link_or_button('Inicio', '@homepage', array('class' => 'showButton')) ?>
+        <?php echo GuaulogUtil::link_or_button('Inicio', '@entrada', array('class' => 'showButton')) ?>
       </div>
       <?php if ($sf_user->hasCredential('admin')): ?>
         <div class="editar">
           <?php echo GuaulogUtil::link_or_button('Editar Entrada',
-                                                 'entrada/edit',
-                                                 array('query_string' => http_build_query(array('mes' => $entrada->getMes(),
-												'anio' => $entrada->getAnio())),
+                                                 '@entrada_edit?' . 'slug=' . $entrada->getSlug(),
+                                                 array(
 						       'class' => 'editar showButton'
 						       )) ?>
         </div>
@@ -73,29 +69,33 @@
       <?php $i = 0; foreach ($entrada->getGuaulogFotos() as $foto): ?>
         <?php if ($i % 7 == 0) { echo "</tr><tr>"; } ?>
         <td class="foto" id="foto_<?php echo $foto->getId() ?>">
-          <span><img src="/uploads/.thumbnails/<?php echo $foto->getFoto() ?>" alt="Miniatura de la foto" /></span>
+          <span class="imgalt"><img id="img_<?php echo $foto->getId() ?>" src="/uploads/.thumbnails/<?php echo $foto->getFoto() ?>" alt="Miniatura de la foto" /></span>
           <br />
           <?php if ($sf_user->hasCredential('admin')): ?>
             <?php echo GuaulogUtil::link_or_button('Cambiar',
-                                                   'fotos/edit',
-                                                   array('query_string' => http_build_query(array('id' => $foto->getId(),
-												  'mes' => $entrada->getMes(),
-												  'anio' => $entrada->getAnio())),
+                                                   '@foto_edit?' . http_build_query(array('id' => $foto->getId())),
+                                                   array(
 							 'class' => 'detailButton editar',
-							 'id' => 'foto_'.$foto->getId()
+							 'id' => 'foto_edit_' . $foto->getId()
 							 )) ?>
           <?php endif ?>
           <br />
           <?php if ($sf_user->hasCredential('admin')): ?>
-            <?php echo GuaulogUtil::link_or_button('Borrar',
-                                                   'fotos/delete',
-                                                   array('query_string' => http_build_query(array('id' => $foto->getId(),
-												  'mes' => $entrada->getMes(),
-												  'anio' => $entrada->getAnio())),
-							 'confirm' => '¿Estás seguro?',
-							 'class' => 'detailButton borrar',
-							 'id' => 'foto_'.$foto->getId()
-							 )) ?>
+            <?php if (sfConfig::get('app_use_buttons')): ?>
+              <form action="<?php echo url_for('@foto_delete?' . 'id=' . $foto->getId()) ?>" method="post" >
+                <input type="hidden" name="sf_method" id="foto_delete_<?php echo $foto->getId() ?>" value="delete" />
+                <input class="detailButton borrar" type="submit" value="Borrar" onclick="if (confirm('¿Estás seguro?')) { } else return false;" />
+              </form>
+            <?php else: ?>
+              <?php echo GuaulogUtil::link_or_button('Borrar',
+                                                     '@foto_delete?' . 'id=' . $foto->getId(),
+                                                     array(
+							   'confirm' => '¿Estás seguro?',
+							   'method' => 'delete',
+							   'class' => 'detailButton borrar',
+							   'id' => 'foto_delete_' . $foto->getId()
+							   )) ?>
+            <?php endif ?>
           <?php endif ?>
         </td>
         <?php $i++ ?>
@@ -104,11 +104,11 @@
   </table>
   <?php if ($sf_user->hasCredential('admin')): ?>
     <?php echo GuaulogUtil::link_or_button('Agregar',
-                                           'foto/new',
-                                           array('query_string' => http_build_query(array('mes' => $entrada->getMes(),
-											  'anio' => $entrada->getAnio())),
+                                           '@foto_new',
+                                           array(
+						 'query_string' => http_build_query(array('entrada' => $entrada->getSlug())),
 						 'class' => 'detailButton agregar',
-						 'id' => 'foto'
+						 'id' => 'foto_new'
 						 )) ?>
   <?php endif ?>
   <?php /*echo link_to('Fotos', 'foto',
@@ -125,36 +125,40 @@
       <br />
       <?php if ($sf_user->hasCredential('admin')): ?>
         <?php echo GuaulogUtil::link_or_button('Editar',
-                                               'detalles/edit',
-                                               array('query_string' => http_build_query(array('id' => $detalle->getId(),
-											      'mes' => $entrada->getMes(),
-											      'anio' => $entrada->getAnio())),
+                                               '@detalle_edit?' . http_build_query(array('id' => $detalle->getId())),
+                                               array(
 						     'class' => 'detailButton editar',
-						     'id' => 'detalle_'.$detalle->getId()
+						     'id' => 'detalle_edit_' . $detalle->getId()
 						     )) ?>
       <?php endif ?>
       <span class="detailButton">-</span>
       <?php if ($sf_user->hasCredential('admin')): ?>
-        <?php echo GuaulogUtil::link_or_button('Borrar',
-                                               'detalles/delete',
-                                               array('query_string' => http_build_query(array('id' =>$detalle->getId(),
-											      'mes' => $entrada->getMes(),
-											      'anio' => $entrada->getAnio())),
-						     'confirm' => '¿Estás seguro?',
-						     'class' => 'detailButton borrar',
-						     'id' => 'detalle_'.$detalle->getId()
-						     )) ?>
+        <?php if (sfConfig::get('app_use_buttons')): ?>
+          <form action="<?php echo url_for('@detalle_delete?' . 'id=' . $detalle->getId()) ?>" method="post" >
+            <input type="hidden" name="sf_method" id="detalle_delete_<?php echo $detalle->getId() ?>" value="delete" />
+            <input class="detailButton borrar" type="submit" value="Borrar" onclick="if (confirm('¿Estás seguro?')) { } else return false;" />
+          </form>
+        <?php else: ?>
+          <?php echo GuaulogUtil::link_or_button('Borrar',
+                                                 '@detalle_delete?' . 'id=' . $detalle->getId(),
+                                                 array(
+						       'confirm' => '¿Estás seguro?',
+						       'method' => 'delete',
+						       'class' => 'detailButton borrar',
+						       'id' => 'detalle_delete_' . $detalle->getId()
+						       )) ?>
+        <?php endif ?>
       <?php endif ?>
       <hr />
     </div>
   <?php endforeach ?>
   <?php if ($sf_user->hasCredential('admin')): ?>
     <?php echo GuaulogUtil::link_or_button('Agregar',
-                                           'detalle/new',
-                                           array('query_string' => http_build_query(array('mes' => $entrada->getMes(),
-											  'anio' => $entrada->getAnio())),
+                                           '@detalle_new',
+                                           array(
+						 'query_string' => http_build_query(array('entrada' => $entrada->getSlug())),
 						 'class' => 'detailButton agregar',
-						 'id' => 'detalle'
+						 'id' => 'detalle_new'
 						 )) ?>
   <?php endif ?>
   <?php /*echo link_to('Detalles', 'detalle',

@@ -2,15 +2,20 @@
 
 <div class="entrada_form">
   <?php include_partial('form', array('form' => $form, 'entrada' => $entrada, 'textoCancelar' => 'Cancelar')) ?>
-  <?php /*include_partial('cancelform', array('entrada' => $entrada, 'texto' => 'Cancelar'))*/ ?>
   <table class="entrada_form"><tr><td>
-    <?php echo GuaulogUtil::link_or_button('Borrar',
-                                           'entrada/delete',
-                                           array('query_string' => http_build_query(array(
-											  'mes' => $entrada->getMes(),
-											  'anio' => $entrada->getAnio())),
-						 'confirm' => '¿Estás seguro?',
-						 'class' => 'showButton'
-						 )) ?>
+    <?php if (sfConfig::get('app_use_buttons')): ?>
+      <form action="<?php echo url_for('@entrada_delete?' . 'slug=' . $entrada->getSlug()) ?>" method="post" >
+        <input type="hidden" name="sf_method" value="delete" />
+        <input class="showButton" type="submit" value="Borrar" onclick="if (confirm('¿Estás seguro?')) { } else return false;" />
+      </form>
+    <?php else: ?>
+      <?php echo GuaulogUtil::link_or_button('Borrar',
+                                             '@entrada_delete?' . 'slug=' . $entrada->getSlug(),
+                                             array(
+						   'confirm' => '¿Estás seguro?',
+						   'method' => 'delete',
+						   'class' => 'showButton'
+						   )) ?>
+    <?php endif ?>
   </td></tr></table>
 </div>

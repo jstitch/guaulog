@@ -1,7 +1,7 @@
 <?php
 require_once (dirname(__FILE__).'/../../bootstrap/Doctrine.php');
 
-$t = new lime_test(16);
+$t = new lime_test(17);
 
 $t->comment("::getNombreMes()");
 $ent = Doctrine_Query::create()->from('GuaulogEntrada')->where('anio = ?', '2010');
@@ -21,6 +21,10 @@ $t->is($ent->andWhere('mes = ?', '5')->fetchOne()->getNombreMes(),
 /*        'Noviembre', 'obtiene el nombre del mes en forma de cadena de texto'); */
 /* $t->is($ent->andWhere('mes = ?', '12')->fetchOne()->getNombreMes(), */
 /*        'Diciembre', 'obtiene el nombre del mes en forma de cadena de texto'); */
+
+$t->comment("Table::getEntradaBySlug()");
+$entrada = Doctrine_Core::getTable('GuaulogEntrada')->getEntradaBySlug(array('slug' => '5-2010'));
+$t->is($entrada->getMes().' '.$entrada->getAnio(), '5 2010', 'obtiene una entrada para el slug de mes-año dado');
 
 $t->comment("Table::getEntradaByMesAnio()");
 $entrada = Doctrine_Core::getTable('GuaulogEntrada')->getEntradaByMesAnio("12", "2010");

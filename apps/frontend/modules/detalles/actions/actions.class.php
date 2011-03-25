@@ -26,20 +26,20 @@ class detallesActions extends sfActions
 
   public function executeNew(sfWebRequest $request)
   {
-    $mes = $request->getParameter('mes');
-    $anio = $request->getParameter('anio');
+    $this->forward404Unless($entrada = Doctrine_Core::getTable('GuaulogEntrada')->getEntradaBySlug(array('slug' => $request->getParameter('entrada'))),
+			    sprintf('Object entrada does not exists (%s)', $request->getParameter('entrada')));
+
     //    $this->toindex = $request->getParameter('toindex');
 
     $this->form = new GuaulogDetalleForm();
-    $this->entrada = Doctrine_Core::getTable('GuaulogEntrada')
-      ->getEntradaByMesAnio($mes,
-			    $anio);
-    $this->form->setEntrada($this->entrada);
+    $this->form->setEntrada($entrada);
   }
 
   public function executeCreate(sfWebRequest $request)
   {
+    $this->forward404Unless($request->isMethod(sfRequest::POST));
     $this->form = new GuaulogDetalleForm();
+
     //    $this->toindex = $request->getPostParameter('toindex');
 
     $this->processForm($request, $this->form, true);
@@ -47,46 +47,48 @@ class detallesActions extends sfActions
     $formvalues = $request->getParameter($this->form->getName());
 
     $this->form->setEntrada(Doctrine_Core::getTable('GuaulogEntrada')
-      ->find(array($formvalues['entrada_id'])));
+			    ->find(array($formvalues['entrada_id'])));
     $this->setTemplate('new');
   }
 
   public function executeEdit(sfWebRequest $request)
   {
-    //    $detalle = $this->getRoute()->getObject();
-    $this->entrada = Doctrine_Core::getTable('GuaulogEntrada')->getEntradaByMesAnio($request->getParameter('mes'), $request->getParameter('anio'));
-    $this->forward404Unless($detalle = Doctrine_Core::getTable('GuaulogDetalle')->find(array($request->getParameter('id'),
-											     $this->entrada->getId())),
-			    sprintf('Object detalle does not exist (%s,%s).', $request->getParameter('id'), $this->entrada->getId()));
+    $this->forward404Unless($detalle = $this->getRoute()->getObject(),
+			    sprintf('Object detalle does not exist.'));
+
     //    $this->toindex = $request->getParameter('toindex');
 
     $this->form = new GuaulogDetalleForm($detalle);
+
     $this->form->setEntrada($detalle->getGuaulogEntrada());
   }
 
   public function executeUpdate(sfWebRequest $request)
   {
-    $this->form = new GuaulogDetalleForm($this->getRoute()->getObject());
+    $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
+    $this->forward404Unless($detalle = $this->getRoute()->getObject(),
+			    sprintf('Object detalle does not exist.'));
+
     //    $this->toindex = $request->getPostParameter('toindex');
+
+    $this->form = new GuaulogDetalleForm($detalle);
 
     $this->processForm($request, $this->form);
 
     $formvalues = $request->getParameter($this->form->getName());
 
-    $this->form->setEntrada(Doctrine_Core::getTable('GuaulogEntrada')
-			    ->find(array($formvalues['entrada_id'])));
+    $this->form->setEntrada($detalle->getGuaulogEntrada());
     $this->setTemplate('edit');
   }
 
   public function executeDelete(sfWebRequest $request)
   {
-    $entrada = Doctrine_Core::getTable('GuaulogEntrada')->getEntradaByMesAnio($request->getParameter('mes'), $request->getParameter('anio'));
-    $this->forward404Unless($detalle = Doctrine_Core::getTable('GuaulogDetalle')->find(array($request->getParameter('id'),
-											     $entrada->getId())),
-			    sprintf('Object detalle does not exist (%s,%s).', $request->getParameter('id'), $entrada->getId()));
+    $this->forward404Unless($request->isMethod(sfRequest::DELETE));
+    //    $request->checkCSRFProtection();
+    $this->forward404Unless($detalle = $this->getRoute()->getObject(),
+			    sprintf('Object detalle does not exist.'));
 
-    $mes = $detalle->getGuaulogEntrada()->getMes();
-    $anio = $detalle->getGuaulogEntrada()->getAnio();
+    $slug = $detalle->getGuaulogEntrada()->getSlug();
     $detalle->delete();
 
     /*    if ($request->getParameter('toindex'))
@@ -94,7 +96,7 @@ class detallesActions extends sfActions
 	$this->redirect('detalle', array('mes' => $mes, 'anio' => $anio, 'toindex' => true));
 	}*/
     $this->getUser()->setFlash('notice', sprintf('Detalle eliminado'));
-    $this->redirect('entrada_show', $entrada);
+    $this->redirect('@entrada_show?' . 'slug=' . $slug);
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form, $new = false)
@@ -108,7 +110,6 @@ class detallesActions extends sfActions
       {
 	$this->detalle = $form->save();
 
-	$entrada = $this->detalle->getGuaulogEntrada();
 	$this->getUser()->setFlash('notice', sprintf('Detalle %s correctamente', $new ? 'creado' : 'editado'));
 	/*	if (isset($this->toindex) && $this->toindex)
 	  {
@@ -119,7 +120,7 @@ class detallesActions extends sfActions
 								      ))
 			    );
 			    }*/
-	$this->redirect('entrada_show', $entrada);
+	$this->redirect('@entrada_show?' . 'slug=' . $this->detalle->getGuaulogEntrada()->getSlug());
       }
     else
       {

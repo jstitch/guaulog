@@ -13,7 +13,7 @@
             &&
              ($sf_request->getParameter('module') != 'sfGuardAuth' || $sf_request->getParameter('action') != 'signin')): ?>
       <div class="div_title">
-        <a href='<?php echo url_for("entrada/index") ?>'>
+        <a href='<?php echo url_for("entrada") ?>'>
           <?php echo sfConfig::get('app_nombre')?> <img src="/uploads/<?php echo sfConfig::get('app_minilogo') ?>" alt="logo" /></a>
       </div>
     <?php endif ?>

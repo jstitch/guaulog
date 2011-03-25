@@ -26,7 +26,7 @@
 				      )),
 				      'post' => false)) ?>
           <?php else: */?>
-            <form action="<?php echo url_for('entrada/show?' . http_build_query(array('mes'=>$entrada->getMes(), 'anio'=>$entrada->getAnio()))) ?>">
+            <form action="<?php echo url_for('@entrada_show?' . 'slug=' . $entrada->getSlug()) ?>">
               <input type="submit" value="<?php echo $textoCancelar ?>" class="showButton" />
             </form>
           <?php /*endif;*/ ?>

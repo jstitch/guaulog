@@ -2,7 +2,7 @@
 
 <table class="entrada_form"><tr><td>
   <?php if (isset($entrada)): ?>
-    <form action="<?php echo url_for('entrada/show?' . http_build_query(array('mes'=>$entrada->getMes(), 'anio'=>$entrada->getAnio()))) ?>">
+    <form action="<?php echo url_for('@entrada_show?' . 'slug=' . $entrada->getSlug()) ?>">
   <?php else: ?>
     <form action="<?php echo url_for('@homepage') ?>">
   <?php endif; ?>

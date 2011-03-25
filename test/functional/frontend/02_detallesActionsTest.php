@@ -157,29 +157,29 @@ $browser->
     isParameter('module', 'entrada')->
     isParameter('action', 'show')->
   end()->
-  with('response')->begin()->
+  with('response')->begin()-> 
+//    checkElement('div.detalle:contains("prueba de agregar un detalle")', true)->
     checkElement('div.flash_notice', '/Detalle creado correctamente/')->
-    checkElement('div.detalle:contains("prueba de agregar un detalle")', true)->
-  end()
+  end()->
 
-  /* click('Borrar', array(), array('position' => 5))-> */
-  /* info('4 - The delete')-> */
-  /* info('  4.1 - borra el detalle de la BD')-> */
-  /* with('doctrine')->begin()-> */
-  /*   check('GuaulogDetalle', array('detalle' => 'prueba de agregar un detalle'), false)-> */
-  /* end()-> */
-  /* with('response')->begin()-> */
-  /*   isRedirected()-> */
-  /* end()-> */
-  /* followRedirect()-> */
-  /* with('request')->begin()-> */
-  /*   isParameter('module', 'entrada')-> */
-  /*   isParameter('action', 'show')-> */
-  /* end()-> */
-  /* with('response')->begin()-> */
-  /*   checkElement('div.flash_notice', '/Detalle eliminado/')-> */
-  /*   checkElement('div.detalle:contains("prueba de agregar un detalle")', false)-> */
-  /* end() */
+  click('Borrar', array(), array('method' => 'delete', 'position' => 4))->
+  info('4 - The delete')->
+  info('  4.1 - borra el detalle de la BD')->
+  with('doctrine')->begin()->
+    check('GuaulogDetalle', array('detalle' => 'detalle \#2 de diciembre 2010'), false)->
+  end()->
+  with('response')->begin()->
+    isRedirected()->
+  end()->
+  followRedirect()->
+  with('request')->begin()->
+    isParameter('module', 'entrada')->
+    isParameter('action', 'show')->
+  end()->
+  with('response')->begin()->
+//    checkElement('div.detalle:contains("detalle \#2 de diciembre 2010")', false)->
+    checkElement('div.flash_notice', '/Detalle eliminado/')->
+  end()
 ;
 
 $detalles = Doctrine_Core::getTable('GuaulogDetalle')->getDetallesForEntrada('12', '2010');
@@ -198,7 +198,7 @@ $browser->
   with('response')->begin()->
     checkElement('td.detalles a.agregar', false)->
   end()->
-  get('/detalle/new?mes=12&amp;anio=2010')->
+  get('/detalle/new?slug='.$detalle->getGuaulogEntrada()->getSlug())->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
@@ -207,7 +207,7 @@ $browser->
   with('response')->begin()->
     checkElement('td.detalles div.detalle a.editar', false)->
   end()->
-  get('/detalles/edit?id=' . $detalle->getId() . '&mes=12&anio=2010')->
+  get('/detalle/'.$detalle->getId().'/edit')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
@@ -216,19 +216,19 @@ $browser->
   with('response')->begin()->
     checkElement('td.detalles div.detalle a.borrar', false)->
   end()->
-  get('/detalles/delete?id=' . $detalle->getId() . '&mes=12&anio=2010')->
+  call('/detalle/'.$detalle->getId(), 'delete')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
 
   info('  5.4 - Normal user cannot create detail')->
-  get('/detalles/create')->
+  post('/detalle')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
 
   info('  5.5 - Normal user cannot update detail')->
-  get('/detalles/update')->
+  call('/detalle/'.$detalle->getId(), 'put')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
@@ -242,31 +242,33 @@ $browser->
   /* end()-> */
 
   info('  5.7 - Guest user cannot add detail')->
-  get('/detalle/new?mes=12&amp;anio=2010')->
+  get('/detalle/new?slug='.$detalle->getGuaulogEntrada()->getSlug())->
   with('response')->begin()->
     isStatusCode(401)->
   end()->
 
   info('  5.8 - Guest user cannot edit detail')->
-  get('/detalles/edit?id=' . $detalle->getId() . '&mes=12&anio=2010')->
+  get('/detalle/'.$detalle->getId().'/edit')->
   with('response')->begin()->
     isStatusCode(401)->
   end()->
 
   info('  5.9 - Guest user cannot delete detail')->
-  get('/detalles/delete?id=' . $detalle->getId() . '&mes=12&anio=2010')->
+  call('/detalle/'.$detalle->getId(), 'delete')->
   with('response')->begin()->
     isStatusCode(401)->
   end()->
 
   info('  5.10 - Guest user cannot create detail')->
-  get('/detalles/create')->
+  post('/detalle')->
   with('response')->begin()->
-    isStatusCode(401)->
+//    isStatusCode(401)->
+    checkElement('form input[name="signin[username]"]', true)->
+    checkElement('form input[name="signin[password]"]', true)->
   end()->
 
   info('  5.11 - Guest user cannot update detail')->
-  get('/detalles/update')->
+  call('/detalle/'.$detalle->getId(), 'put')->
   with('response')->begin()->
     isStatusCode(401)->
   end()

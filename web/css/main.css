@@ -17,6 +17,11 @@ select
     font-size: medium;
 }
 
+span.imgalt
+{
+    font-size: medium;
+}
+
 label
 {
     font-size: x-large;

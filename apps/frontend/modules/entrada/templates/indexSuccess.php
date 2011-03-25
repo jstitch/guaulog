@@ -9,14 +9,14 @@
 
     <div class="botones_control" id="div-botones_control">
       <div class="album" id="div-album">
-        <?php echo GuaulogUtil::link_or_button('Album / Calendario', 'entrada', array('class' => 'showButton')) ?>
+        <?php echo GuaulogUtil::link_or_button('Album / Calendario', '@entrada', array('class' => 'showButton')) ?>
       </div>
 
       <div class="control" id="div-control">
         <?php if ($sf_user->isSuperAdmin()): ?>
-          <?php echo GuaulogUtil::link_or_button('Usuarios', 'sf_guard_user', array('class' => 'showButton')) ?>
+          <?php echo GuaulogUtil::link_or_button('Usuarios', '@sf_guard_user', array('class' => 'showButton')) ?>
         <?php endif ?>
-          <?php echo GuaulogUtil::link_or_button('Salir', 'sf_guard_signout', array('class' => 'showButton')) ?>
+          <?php echo GuaulogUtil::link_or_button('Salir', '@sf_guard_signout', array('class' => 'showButton')) ?>
       </div>
     </div>
   </div>
@@ -33,16 +33,14 @@
 
       <?php if ($sf_user->hasCredential('admin')): ?>
         <div class="registrar" id="div-registrar">
-          <?php echo GuaulogUtil::link_or_button('Registrar', 'entrada/new', array('class' => 'showButton')) ?>
+          <?php echo GuaulogUtil::link_or_button('Registrar', '@entrada_new', array('class' => 'showButton')) ?>
         </div>
       <?php endif ?>
 
       <div class="ver" id="div-ver">
         <br />
         <?php try {if ($form->getWidget('mes') != null): ?>
- <?php /*echo form_tag_for($form, '@entrada_index')*/ ?>
- <?php /*echo form_tag_for($form, 'entrada/index')*/ ?>
- <?php echo $form->renderFormTag('entrada/index/') ?>
+          <?php echo $form->renderFormTag('entrada/index') ?>
             <table align="center" id="entrada_form">
               <tr>
                 <th class="label"><?php echo $form['mes']->renderLabel() ?></th>
@@ -62,7 +60,7 @@
             </table>
           </form>
         <?php endif;?>
-        <?php } catch(InvalidArgumentException $e) { echo "Aún no hay entradas"; } ?>
+        <?php } catch(InvalidArgumentException $e) { echo "<span class=''>Aún no hay entradas</span>"; } ?>
         <br />
       </div>
     </div>

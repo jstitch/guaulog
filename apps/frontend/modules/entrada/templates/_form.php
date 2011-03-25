@@ -4,7 +4,7 @@
 <?php if (!isset($textoCancelar)) $textoCancelar = 'Cancelar' ?>
 
 <?php if (isset($entrada)): ?>
-  <?php echo form_tag_for($form, '@entrada', array('mes'=>$entrada->getMes(), 'anio' => $entrada->getAnio())) ?>
+  <?php echo form_tag_for($form, '@entrada', array('slug'=>$entrada->getSlug())) ?>
 <?php else: ?>
   <?php echo form_tag_for($form, '@entrada') ?>
 <?php endif; ?>
@@ -50,7 +50,7 @@
         </td>
         <td class="left">
           <?php if (isset($entrada)): ?>
-            <form action="<?php echo url_for('entrada/show?' . http_build_query(array('mes'=>$entrada->getMes(), 'anio'=>$entrada->getAnio()))) ?>">
+            <form action="<?php echo url_for('@entrada_show?' . 'slug=' . $entrada->getSlug()) ?>">
           <?php else: ?>
             <form action="<?php echo url_for('@homepage') ?>">
           <?php endif; ?>

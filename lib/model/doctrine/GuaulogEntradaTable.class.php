@@ -29,6 +29,16 @@ class GuaulogEntradaTable extends Doctrine_Table
     }
 
     /**
+     * Obtiene una entrada dado un slug
+     *
+     * @param string $slug el slug (mes-año)
+     */
+    public static function getEntradaBySlug($parameters)
+    {
+      return Doctrine_Core::getTable('GuaulogEntrada')->findOneBySlug($parameters['slug']);
+    }
+
+    /**
      * Obtiene una entrada dado mes y año
      *
      * @param string $mes el mes

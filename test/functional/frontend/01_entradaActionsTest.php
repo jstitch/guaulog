@@ -101,6 +101,7 @@ $browser->
     isParameter('action', 'show')->
   end()->
   with('response')->begin()->
+    isStatusCode(200)->
     checkElement('div.div_title', true)->
     checkElement('div.editar', true)->
     checkElement('div.fecha', '/DICIEMBRE 2010/')->
@@ -273,7 +274,7 @@ $browser->
   with('response')->begin()->
     checkElement('div.flash_notice', '/Entrada editada correctamente para Diciembre de 2010/')->
     checkElement('div.fecha', '/DICIEMBRE 2010/')->
-    checkElement('div.foto_mes img[alt="Foto del mes"]', true)->
+  //    checkElement('div.foto_mes img[alt="Foto del mes"]', true)->
     checkElement('div.medida', '/1.00/')->
     checkElement('div.peso', '/2.00/')->
     checkElement('div.pc', '/3.00/')->
@@ -400,7 +401,7 @@ $browser->
 						)))->
   followRedirect()->
   click('Editar Entrada')->
-  click('Borrar')->
+  click('Borrar', array(), array('method' => 'delete'))->
   info('  5.1 - borra la entrada de la BD')->
   with('doctrine')->begin()->
     check('GuaulogEntrada', array(
@@ -418,7 +419,7 @@ $browser->
     isParameter('action', 'index')->
   end()->
   with('response')->begin()->
-    checkElement('flash_notice', '/Entrada eliminada: Febrero de 2011/')->
+    checkElement('div.flash_notice', '/Entrada eliminada: Febrero de 2011/')->
   end()->
   click('Ver', array('guaulog_entrada' => array('mes' => '2',
 						'anio' => '2011'
@@ -433,6 +434,7 @@ $entrada = Doctrine_Core::getTable('GuaulogEntrada')->getEntradaByMesAnio('12', 
 $browser->
   info('6 - The security')->
   info('  6.1 - Logout')->
+  get('/')->
   click('Salir')->
   get('/')->
   with('response')->begin()->
@@ -472,25 +474,25 @@ $browser->
   with('response')->begin()->
     checkElement('div.editar', false)->
   end()->
-  get('/entrada/edit?mes=12&anio=2010')->
+  get('/entrada/12-2010/edit')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
 
   info('  6.5 - Normal user cannot delete')->
-  get('/entrada/delete?mes=12&anio=2011')->
+  call('/entrada/12-2010', 'delete')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
 
   info('  6.6 - Normal user cannot update')->
-  get('/entrada/update')->
+  call('/entrada/12-2010', 'put')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
 
   info('  6.7 - Normal user cannot create')->
-  get('/entrada/create')->
+  post('/entrada')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
@@ -522,21 +524,23 @@ $browser->
     isStatusCode(401)->
   end()->
 
-  info('  6.13 - Guest user cannot edit')->
-  get('/entrada/delete?mes=12&anio=2011')->
+  info('  6.13 - Guest user cannot delete')->
+  call('/entrada/12-2010', 'delete')->
   with('response')->begin()->
     isStatusCode(401)->
   end()->
 
-  info('  6.14 - Guest user cannot edit')->
-  get('/entrada/update')->
+  info('  6.14 - Guest user cannot update')->
+  call('/entrada/12-2010', 'put')->
   with('response')->begin()->
     isStatusCode(401)->
   end()->
 
-  info('  6.15 - Guest user cannot edit')->
-  get('/entrada/create')->
+  info('  6.15 - Guest user cannot create')->
+  post('/entrada')->
   with('response')->begin()->
-    isStatusCode(401)->
+//    isStatusCode(401)->
+    checkElement('form input[name="signin[username]"]', true)->
+    checkElement('form input[name="signin[password]"]', true)->
   end()
 ;
