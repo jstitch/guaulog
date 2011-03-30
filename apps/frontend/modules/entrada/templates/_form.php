@@ -29,15 +29,15 @@
       </tr>
       <tr>
         <th class="label right"><?php echo $form['mide']->renderLabel() ?></th>
-        <td class="field left"><?php echo $form['mide'] ?></td>
+        <td class="field left"><?php echo $form['mide'] ?> cm</td>
       </tr>
       <tr>
         <th class="label right"><?php echo $form['pesa']->renderLabel() ?></th>
-        <td class="field left"><?php echo $form['pesa'] ?></td>
+        <td class="field left"><?php echo $form['pesa'] ?> gr</td>
       </tr>
       <tr>
         <th class="label right"><?php echo $form['pc']->renderLabel() ?></th>
-        <td class="field left"><?php echo $form['pc'] ?></td>
+        <td class="field left"><?php echo $form['pc'] ?> cm</td>
         <input type="hidden" name="guaulog_entrada[_csrf_token]" value="<?php /*echo $form->getCSRFToken()*/ ?>" id="guaulog_entrada__csrf_token" /-->
       </tr>
     </tbody>
