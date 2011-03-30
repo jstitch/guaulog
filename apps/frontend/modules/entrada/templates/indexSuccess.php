@@ -9,7 +9,7 @@
 
     <div class="botones_control" id="div-botones_control">
       <div class="album" id="div-album">
-        <?php echo GuaulogUtil::link_or_button('Album / Calendario', '@entrada', array('class' => 'showButton')) ?>
+   <?php /*echo GuaulogUtil::link_or_button('Album / Calendario', '@entrada', array('class' => 'showButton'))*/ ?>
       </div>
 
       <div class="control" id="div-control">
