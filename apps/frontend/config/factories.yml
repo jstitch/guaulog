@@ -2,11 +2,20 @@
 # http://www.symfony-project.org/reference/1_4/en/05-Factories
 
 prod:
+  storage:
+    class: sfSessionStorage
+    param:
+      session_name: guaulog
+  user:
+    class: myUser
+    param:
+      timeout: 1800
   logger:
-    class:   sfNoLogger
+    class:   sfFileLogger
     param:
       level:   err
       loggers: ~
+      file:    %SF_LOG_DIR%/%SF_APP%_%SF_ENVIRONMENT%.log
 
 test:
   storage:
