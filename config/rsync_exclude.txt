@@ -12,6 +12,8 @@
 /test/fixtures/*
 /data/fixtures/*
 
+/config/databases.yml
+
 # SCM files
 .arch-params
 .bzr
