@@ -7,7 +7,7 @@ html, body
 
 body
 {
-    background: #FF66FF url('/uploads/lili_pad_transp_pink.jpg') fixed;
+    background: white url('/uploads/guaulog_background.png') fixed;
     font-family: "Verdana", Verdana, sans-serif;
     font-size: xx-large;
 }
@@ -147,4 +147,34 @@ table.login
 .left
 {
     text-align: left;
+}
+
+div.foot
+{
+    font-size: 12px;
+    text-align: right;
+    position: relative;
+    top: 600px;
+}
+
+div.foot a
+{
+    text-decoration: none;
+    text-transform: none;
+}
+div.foot ul
+{
+    display: inline;
+}
+
+div.foot li
+{
+  list-style: none;
+  margin-right: 15px;
+  display: inline;
+}
+
+#minilogo
+{
+    vertical-align: middle;
 }

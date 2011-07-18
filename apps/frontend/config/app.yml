@@ -5,12 +5,14 @@
 all:
   limite_anios:     10
   use_buttons:      true
-  portada_fname:    Susi_bw
-  portada_fext:     png
+  portada_fname:    guaulog
+  portada_fext:     jpg
   portada_thmb_ext: jpg
-  nombre:           Susana Sarahí
-  logo:             lili.gif
-  minilogo:         lili_mini.gif
+  nombre:
+#  nombre:           Guau! Baby Log
+  logo:             guaulog.gif
+  minilogo:         guaulog_mini.gif
+  aboutlogo:        guaulog_mini2.gif
   background:       lili_pad_transp.jpg
 
 dev:

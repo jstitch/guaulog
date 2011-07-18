@@ -1,6 +1,6 @@
 <?php
 
-require_once '/usr/local/src/svn/symfony/lib/autoload/sfCoreAutoload.class.php';
+require_once '/home/jstitch/src/php/guaulog/lib/vendor/symfony/lib/autoload/sfCoreAutoload.class.php';
 sfCoreAutoload::register();
 
 class ProjectConfiguration extends sfProjectConfiguration

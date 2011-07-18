@@ -14,7 +14,7 @@
              ($sf_request->getParameter('module') != 'sfGuardAuth' || $sf_request->getParameter('action') != 'signin')): ?>
       <div class="div_title">
         <a href='<?php echo url_for("entrada") ?>'>
-          <?php echo sfConfig::get('app_nombre')?> <img src="/uploads/<?php echo sfConfig::get('app_minilogo') ?>" alt="logo" /></a>
+          <?php echo sfConfig::get('app_nombre')?> <img id="minilogo" src="/uploads/<?php echo sfConfig::get('app_minilogo') ?>" alt="logo" /></a>
       </div>
     <?php endif ?>
     <?php if ($sf_user->hasFlash('notice')): ?>
@@ -23,9 +23,15 @@
     <?php if ($sf_user->hasFlash('error')): ?>
       <div class="flash_error"><?php echo $sf_user->getFlash('error') ?></div>
     <?php endif ?>
-    <div class="content">
-      <?php echo $sf_content ?>
-    </div>
+      <div class="content">
+        <?php echo $sf_content ?>
+      </div>
+      <div class="foot">
+        <ul>
+        <li id="about"><a href="http://guaulog.invernalia.homelinux.net">Guau! Baby Log</a> <img src="/uploads/<?php echo sfConfig::get('app_aboutlogo') ?>" alt="logo" />
+        by <a href="http://invernalia.homelinux.net/jstitch">JNC</a></li>
+        <li id="source"><a href="http://git.invernalia.homelinux.net/?a=summary&p=guaulog">Source code</a></li>
+      </div>
   </body>
 </html>
 
