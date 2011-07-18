@@ -6,16 +6,24 @@ chmod g+w ../cache
 mkdir ../log
 chmod g+w ../log
 
+echo ""
+
 echo "Same goes for uploads subdirs..."
 chmod g+w ../web/uploads
 chmod -R g+w ../web/uploads/fotos
 chmod -R g+w ../web/uploads/.reduced
 chmod -R g+w ../web/uploads/.thumbnails
 
+echo ""
+
 echo "WARNING: mysql server must be running!!!"
+echo ""
 
 mysql -u root -p < install.sql
+echo ""
 mysql -u root -p -D guaulog < guaulog_dev_data.sql
+
+echo ""
 
 echo "You must edit config/ProjectConfiguration.class.php so that
 require_once statement points to right path in your symfony
