@@ -1,4 +1,4 @@
-# You can find more information about this file on the symfony website:
+1;2801;0c# You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/11-App
 
 # default values
@@ -13,7 +13,7 @@ all:
   logo:             guaulog.gif
   minilogo:         guaulog_mini.gif
   aboutlogo:        guaulog_mini2.gif
-  background:       lili_pad_transp.jpg
+  background:       guaulog_background.png
 
 dev:
   use_buttons:      true

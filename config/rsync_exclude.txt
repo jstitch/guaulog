@@ -24,3 +24,4 @@ _darcs
 .monotone
 .svn
 CVS
+php_errors.log
