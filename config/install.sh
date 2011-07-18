@@ -6,6 +6,12 @@ chmod g+w ../cache
 mkdir ../log
 chmod g+w ../log
 
+echo "Same goes for uploads subdirs..."
+chmod g+w ../web/uploads
+chmod -R g+w ../web/uploads/fotos
+chmod -R g+w ../web/uploads/.reduced
+chmod -R g+w ../web/uploads.thumbnails
+
 echo "WARNING: mysql server must be running!!!"
 
 mysql -u root -p < install.sql
