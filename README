@@ -43,6 +43,17 @@ Read the LICENSE file for more information.
 
 
 
+=== TODO ===
+-Add a 'calendar generator', which takes pictures from moths already
+ uploaded and generates a calendar for that month
+
+-Allow users to select a picture to display in the month screen by
+ clicking on it
+
+-Enhance user management. (Make it a social network?)
+
+
+
 === ABOUT ===
 Guau! Baby Log v0.1, by Javier Novoa Cataño.
 GitHub site: https://github.com/jstitch/guaulog
