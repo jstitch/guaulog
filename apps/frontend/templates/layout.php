@@ -30,7 +30,7 @@
         <ul>
         <li id="about"><a href="http://guaulog.invernalia.homelinux.net">Guau! Baby Log</a> <img src="/uploads/<?php echo sfConfig::get('app_aboutlogo') ?>" alt="logo" />
         by <a href="http://invernalia.homelinux.net/jstitch">JNC</a></li>
-        <li id="source"><a href="http://git.invernalia.homelinux.net/?a=summary&p=guaulog">Source code</a></li>
+        <li id="source"><a href="https://github.com/jstitch/guaulog">Source code</a></li>
       </div>
   </body>
 </html>
