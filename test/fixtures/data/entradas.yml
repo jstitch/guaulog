@@ -1,0 +1,25 @@
+GuaulogEntrada:
+  prueba_abril_2011:
+    mes:  4
+    anio: 2011
+    mide: 0.70
+    pesa: 1.70
+    pc:   2.70
+  prueba_mayo_2011:
+    mes:  5
+    anio: 2011
+    mide: 0.80
+    pesa: 1.80
+    pc:   2-80
+  prueba_junio_2011:
+    mes:  6
+    anio: 2011
+    mide: 0.90
+    pesa: 1.90
+    pc:   2.90
+  prueba_julio_2011:
+    mes:  7
+    anio: 2011
+    mide: 1.00
+    pesa: 2.00
+    pc:   3.00

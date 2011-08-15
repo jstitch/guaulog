@@ -1,0 +1,25 @@
+GuaulogDetalle:
+  prueba_abril_2011_1:
+    GuaulogEntrada: prueba_abril_2011
+    detalle:        Este es un ejemplo de un detalle... por ejemplo... 'primer cita con el pediatra, abril 7 2011'
+  prueba_abril_2011_2:
+    GuaulogEntrada: prueba_abril_2011
+    detalle:        Otro detalle de ejemplo... 'a los 7 dias crecio 3 cm!!'
+  prueba_mayo_2011_1:
+    GuaulogEntrada: prueba_mayo_2011
+    detalle:        Un detalle de ejemplo... 'Ya duerme corrido toda la noche! Gracias al descanso que nos permite tener :)'
+  prueba_junio_2011_1:
+    GuaulogEntrada: prueba_junio_2011
+    detalle:        detalle de ejemplo: 'enfermo de gripa por 2 dias'
+  prueba_junio_2011_2:
+    GuaulogEntrada: prueba_junio_2011
+    detalle:        detalle ejemplo: 'sonrie mucho a sus papas y abuelos'
+  prueba_junio_2011_3:
+    GuaulogEntrada: prueba_junio_2011
+    detalle:        detalle ejemplo: 'cambiamos talla de pañal a una mas grande'
+  prueba_julio_2011_1:
+    GuaulogEntrada: prueba_julio_2011
+    detalle:        detalle ejemplo: 'casi se sienta solito!'
+  prueba_julio_2011_2:
+    GuaulogEntrada: prueba_julio_2011
+    detalle:        Ya esta muy grande<br>http://google.com
