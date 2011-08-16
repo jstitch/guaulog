@@ -35,3 +35,6 @@ $cnt = ($uploaded == FALSE ? 0 : count($uploaded)) +
   ($reduced == FALSE ? 0 : count($reduced)) +
   ($thumbs == FALSE ? 0 : count($thumbs));
 $t->is($cnt, 0, 'elimina archivos de fotos no relacionados en la BD');
+
+$t->comment('Cleaning...');
+GuaulogTest::prepareFiles();

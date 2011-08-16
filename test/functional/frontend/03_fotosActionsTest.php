@@ -115,7 +115,7 @@ $browser->
     check('GuaulogFoto', array('foto' => '44f2c5dec13920b59f4ed97870ae5f9edd137f5a.jpg'), 1)->
   end()->
 
- click('Cambiar', array(), array('position' => 2))->
+ click('Cambiar', array(), array('position' => 3))->
   info('  3.3 - Errores de validacion si datos en formulario son invalidos')->
   info('      - datos nulos')->
   click('OK', array('guaulog_foto' => array('foto' => '')))->
@@ -165,7 +165,7 @@ $browser->
     check('GuaulogFoto', array('foto' => $foto_editada->getFoto()), 1)->
   end()->
 
-  click('Borrar', array(), array('method' => 'delete', 'position' => 2))->
+  click('Borrar', array(), array('method' => 'delete', 'position' => 3))->
   info('4 - The delete')->
   info('  4.1 - borra la foto de la BD')->
   with('doctrine')->begin()->
@@ -359,3 +359,7 @@ $browser->
     isStatusCode(401)->
   end()
 ;
+
+$browser->info('Cleaning...');
+$browser->info('Initializing database: fixtures')->loadData();
+$browser->prepareFiles();
