@@ -18,6 +18,6 @@ $t->ok(!file_exists(sfConfig::get('sf_upload_dir').'/.thumbnails/test.jpg'), 'el
 $t->ok(!file_exists(sfConfig::get('sf_upload_dir').'/.reduced/test.jpg'), 'elimina la foto reducida');
 
 $t->comment("Table::getFotosForEntrada()");
-$fotos = Doctrine_Core::getTable('GuaulogFoto')->getFotosForEntrada('6', '2011');
-$t->is(count($fotos), 1, 'obtiene las fotos relacionadas con una entrada dada por los parametros mes/año');
-$t->is($fotos[0]->getFoto(), '59262387b2cea9abc6c3aa6a2d47c8b5d6f886be.jpg');
+$fotos = Doctrine_Core::getTable('GuaulogFoto')->getFotosForEntrada('5', '2011');
+$t->is(count($fotos), 2, 'obtiene las fotos relacionadas con una entrada dada por los parametros mes/año');
+$t->is($fotos[0]->getFoto(), '26877670ca9dcd5483d26bb4066a23ef31118480.jpg');

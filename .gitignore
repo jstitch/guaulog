@@ -1,0 +1,11 @@
+cache/*
+log/*
+lib/vendor/symfony
+config/properties.ini
+
+test/fixtures/fase2
+test/fixtures/files/backups
+
+*~
+
+php_errors.log

@@ -60,6 +60,8 @@ with('response')->begin()->
 
 $browser->restart();
 $browser->info('Initializing database: fixtures')->loadData();
+$browser->info('Preparing data files...');
+$browser->prepareFiles();
 $browser->get('/')->click('OK', array('signin' => array('username' => 'admin', 'password' => 'admin')))->
 
 // validate data found
@@ -67,10 +69,10 @@ $browser->get('/')->click('OK', array('signin' => array('username' => 'admin', '
   get('/')->
   with('response')->begin()->
   info('  1.3 - Si si hay registros, mes y año seleccionados en la entrada mas antigua')->
-    checkElement('form select#guaulog_entrada_mes option[value="5"][selected="selected"]', 'Mayo')->
-    checkElement('form select#guaulog_entrada_anio option[value="2010"][selected="selected"]', '2010')->
+    checkElement('form select#guaulog_entrada_mes option[value="4"][selected="selected"]', 'Abril')->
+    checkElement('form select#guaulog_entrada_anio option[value="2011"][selected="selected"]', '2011')->
   info('  1.4 - Solo debe haber opciones de año para los años de las entradas existentes')->
-    checkElement('form select#guaulog_entrada_anio option[value="2010"]', '2010')->
+    checkElement('form select#guaulog_entrada_anio option[value="2011"]', '2011')->
     checkElement('form select#guaulog_entrada_anio option', 1)->
   end()->
 
@@ -94,8 +96,8 @@ $browser->get('/')->click('OK', array('signin' => array('username' => 'admin', '
     checkElement('div.flash_error', '/¡No existe registro para la fecha indicada!/')->
   end()->
   info('  1.6 - Seleccionar luego de error una entrada existente no provoca error')->
-  click('Ver', array('guaulog_entrada' => array('mes' => '12',
-						'anio' => '2010'
+  click('Ver', array('guaulog_entrada' => array('mes' => '4',
+						'anio' => '2011'
 						)))->
   with('response')->begin()->
     isRedirected()->
@@ -107,7 +109,7 @@ $browser->get('/')->click('OK', array('signin' => array('username' => 'admin', '
   end()->
   with('response')->begin()->
     isStatusCode(200)->
-    checkElement('div.fecha', '/DICIEMBRE 2010/')->
+    checkElement('div.fecha', '/ABRIL 2011/')->
   end()
 ;
 
@@ -116,8 +118,8 @@ $browser->
   info('2 - The show')->
   info('  2.1 - Seleccionar una fecha con entrada lleva al show de esa entrada')->
   get('/')->
-  click('Ver', array('guaulog_entrada' => array('mes' => '12',
-						'anio' => '2010'
+  click('Ver', array('guaulog_entrada' => array('mes' => '6',
+						'anio' => '2011'
 						)))->
   with('response')->begin()->
     isRedirected()->
@@ -131,13 +133,13 @@ $browser->
     isStatusCode(200)->
     checkElement('div.div_title', true)->
     checkElement('div.editar', true)->
-    checkElement('div.fecha', '/DICIEMBRE 2010/')->
+    checkElement('div.fecha', '/JUNIO 2011/')->
     checkElement('div.foto_mes', '/No hay foto seleccionada para este mes./')->
-    checkElement('div.medida', '/0.67/')->
-    checkElement('div.peso', '/6.30/')->
-    checkElement('div.pc', '/44.00/')->
+    checkElement('div.medida', '/0.90/')->
+    checkElement('div.peso', '/1.90/')->
+    checkElement('div.pc', '/2.90/')->
     checkElement('#Anterior', true)->
-    checkElement('#Siguiente', false)->
+    checkElement('#Siguiente', true)->
   end()->
 
 // navigate
@@ -148,31 +150,24 @@ $browser->
     isParameter('action', 'show')->
   end()->
   with('response')->begin()->
-    checkElement('div.fecha', '/NOVIEMBRE 2010/')->
+    checkElement('div.fecha', '/MAYO 2011/')->
     checkElement('#Anterior', true)->
     checkElement('#Siguiente', true)->
   end()->
 
-  click('Anterior')-> //a Octubre
-  click('Anterior')-> //a Septiembre
-  click('Anterior')-> //a Agosto
-  click('Anterior')-> //a Julio
-  click('Anterior')-> //a Junio
-  click('Anterior')-> //a Mayo
+  click('Anterior')-> //a Abril
   with('response')->begin()->
-    checkElement('div.fecha', '/MAYO 2010/')->
+    checkElement('div.fecha', '/ABRIL 2011/')->
     checkElement('#Anterior', false)->
     checkElement('#Siguiente', true)->
   end()->
   click('Siguiente')->
   click('Siguiente')->
   click('Siguiente')->
-  click('Siguiente')->
-  click('Siguiente')->
-  click('Siguiente')->
-  click('Siguiente')->
   with('response')->begin()->
-    checkElement('div.fecha', '/DICIEMBRE 2010/')->
+    checkElement('div.fecha', '/JULIO 2011/')->
+    checkElement('#Anterior', true)->
+    checkElement('#Siguiente', false)->
   end()->
 
 // validate 'Inicio'
@@ -192,8 +187,8 @@ $browser->
 $browser->
   info('3 - Edit entry')->
   get('/')->
-  click('Ver', array('guaulog_entrada' => array('mes' => '12',
-						'anio' => '2010'
+  click('Ver', array('guaulog_entrada' => array('mes' => '6',
+						'anio' => '2011'
 						)))->
   followRedirect()->
   click('Editar Entrada')->
@@ -205,11 +200,11 @@ $browser->
   with('response')->begin()->
     isStatusCode(200)->
     checkElement('div.div_title', true)->
-    checkElement('form select#guaulog_entrada_mes option[value="12"][selected="selected"]', 'Diciembre')->
-    checkElement('form select#guaulog_entrada_anio option[value="2010"][selected="selected"]', '2010')->
-    checkElement('form input[name="guaulog_entrada[mide]"][value="0.67"]', true)->
-    checkElement('form input[name="guaulog_entrada[pesa]"][value="6.30"]', true)->
-    checkElement('form input[name="guaulog_entrada[pc]"][value="44.00"]', true)->
+    checkElement('form select#guaulog_entrada_mes option[value="6"][selected="selected"]', 'Junio')->
+    checkElement('form select#guaulog_entrada_anio option[value="2011"][selected="selected"]', '2011')->
+    checkElement('form input[name="guaulog_entrada[mide]"][value="0.90"]', true)->
+    checkElement('form input[name="guaulog_entrada[pesa]"][value="1.90"]', true)->
+    checkElement('form input[name="guaulog_entrada[pc]"][value="2.90"]', true)->
   end()->
 
   click('Cancelar')->
@@ -220,12 +215,12 @@ $browser->
   end()->
   with('doctrine')->begin()->
     check('GuaulogEntrada', array(
-				  'mes' => '12',
-				  'anio' => '2010',
+				  'mes' => '6',
+				  'anio' => '2011',
 				  'foto' => null,
-				  'mide' => '0.67',
-				  'pesa' => '6.30',
-				  'pc' => '44.00'
+				  'mide' => '0.90',
+				  'pesa' => '1.90',
+				  'pc' => '2.90'
 				  ))->
   end()->
 
@@ -233,7 +228,7 @@ $browser->
   info('  3.3 - Errores de validacion si datos en formulario son invalidos')->
   info('      - fecha ya existente / datos nulos')->
   click('OK', array('guaulog_entrada' => array('mes' => '5',
-					       'anio' => '2010',
+					       'anio' => '2011',
 					       'mide' => '',
 					       'pesa' => '',
 					       'pc' => ''
@@ -267,13 +262,15 @@ $browser->
     checkElement('div.flash_error', '/Ocurrio un error al editar la entrada/')->
   end();
 
-  $foto_prueba = Doctrine_Core::getTable('GuaulogFoto')->createQuery('f')->where('f.foto = ?', 'diciembre2010.jpg')->fetchOne();
-  $browser->info('  3.5 - Ok realiza los cambios en la entrada y guarda en la BD')->
-  click('OK', array('guaulog_entrada' => array('mes' => '12',
-					       'anio' => '2010',
-					       'mide' => '1.00',
-					       'pesa' => '2.00',
-					       'pc' => '3.00',
+$foto_prueba = Doctrine_Core::getTable('GuaulogFoto')->createQuery('f')->where('f.foto = ?', '59262387b2cea9abc6c3aa6a2d47c8b5d6f886be.jpg')->fetchOne();
+$browser->info('Foto prueba: ' . $foto_prueba->getFoto());
+
+$browser->info('  3.5 - Ok realiza los cambios en la entrada y guarda en la BD')->
+  click('OK', array('guaulog_entrada' => array('mes' => '6',
+					       'anio' => '2011',
+					       'mide' => '1.80',
+					       'pesa' => '3.80',
+					       'pc' => '5.80',
 					       'foto' => $foto_prueba->getId()
 					       )))->
   with('form')->begin()->
@@ -281,12 +278,11 @@ $browser->
   end()->
   with('doctrine')->begin()->
     check('GuaulogEntrada', array(
-				  'mes' => '12',
-				  'anio' => '2010',
-				  'foto' => null,
-				  'mide' => '1.00',
-				  'pesa' => '2.00',
-				  'pc' => '3.00',
+				  'mes' => '6',
+				  'anio' => '2011',
+				  'mide' => '1.80',
+				  'pesa' => '3.80',
+				  'pc' => '5.80',
 				  'foto' => $foto_prueba->getId()
 				  ))->
   end()->
@@ -299,12 +295,12 @@ $browser->
     isParameter('action', 'show')->
   end()->
   with('response')->begin()->
-    checkElement('div.flash_notice', '/Entrada editada correctamente para Diciembre de 2010/')->
-    checkElement('div.fecha', '/DICIEMBRE 2010/')->
-  //    checkElement('div.foto_mes img[alt="Foto del mes"]', true)->
-    checkElement('div.medida', '/1.00/')->
-    checkElement('div.peso', '/2.00/')->
-    checkElement('div.pc', '/3.00/')->
+    checkElement('div.flash_notice', '/Entrada editada correctamente para Junio de 2011/')->
+    checkElement('div.fecha', '/JUNIO 2011/')->
+  //    checkElement('div.foto_mes img[alt="Foto del mes"]', true)-> // what's the tester for this one?
+    checkElement('div.medida', '/1.80/')->
+    checkElement('div.peso', '/3.80/')->
+    checkElement('div.pc', '/5.80/')->
   end()
 ;
 
@@ -339,7 +335,7 @@ $browser->
   info('  4.3 - Errores de validacion si datos en formulario son invalidos')->
   info('      - fecha ya existente / datos nulos')->
   click('OK', array('guaulog_entrada' => array('mes' => '5',
-					       'anio' => '2010',
+					       'anio' => '2011',
 					       'mide' => '',
 					       'pesa' => '',
 					       'pc' => ''
@@ -364,7 +360,7 @@ $browser->
 					       )))->
   with('form')->begin()->
     hasErrors(4)->
-    hasGlobalError("¡La fecha no puede estar en el futuro!")->//fallara si se prueba en diciembre de cada año por el año = date('Y')+1
+    hasGlobalError("¡La fecha no puede estar en el futuro!")->
     isError('mide', 'min')->
     isError('pesa', 'min')->
     isError('pc', 'min')->
@@ -374,7 +370,7 @@ $browser->
   end()->
 
   info('  4.5 - Ok guarda los cambios de la nueva entrada en la BD')->
-  click('OK', array('guaulog_entrada' => array('mes' => '2',
+  click('OK', array('guaulog_entrada' => array('mes' => '8',
 					       'anio' => '2011',
 					       'mide' => '3.14',
 					       'pesa' => '2.72',
@@ -385,7 +381,7 @@ $browser->
   end()->
   with('doctrine')->begin()->
     check('GuaulogEntrada', array(
-				  'mes' => '2',
+				  'mes' => '8',
 				  'anio' => '2011',
 				  'foto' => null,
 				  'mide' => '3.14',
@@ -402,16 +398,16 @@ $browser->
     isParameter('action', 'new')->
   end()->
   with('response')->begin()->
-    checkElement('div.flash_notice', '/Entrada creada correctamente para Febrero de 2011/')->
+    checkElement('div.flash_notice', '/Entrada creada correctamente para Agosto de 2011/')->
   end()->
 
 get('/')->
-  click('Ver', array('guaulog_entrada' => array('mes' => '2',
+  click('Ver', array('guaulog_entrada' => array('mes' => '8',
 						'anio' => '2011'
 						)))->
   followRedirect()->
   with('response')->begin()->
-    checkElement('div.fecha', '/FEBRERO 2011/')->
+    checkElement('div.fecha', '/AGOSTO 2011/')->
     checkElement('div.foto_mes', '/No hay foto seleccionada para este mes./')->
     checkElement('div.medida', '/3.14/')->
     checkElement('div.peso', '/2.72/')->
@@ -423,7 +419,7 @@ get('/')->
 $browser->
   info('5 - The delete')->
   get('/')->
-  click('Ver', array('guaulog_entrada' => array('mes' => '2',
+  click('Ver', array('guaulog_entrada' => array('mes' => '8',
 						'anio' => '2011'
 						)))->
   followRedirect()->
@@ -432,7 +428,7 @@ $browser->
   info('  5.1 - borra la entrada de la BD')->
   with('doctrine')->begin()->
     check('GuaulogEntrada', array(
-				  'mes' => '2',
+				  'mes' => '8',
 				  'anio' => '2011'
 				  ),
 	  false)->
@@ -446,9 +442,9 @@ $browser->
     isParameter('action', 'index')->
   end()->
   with('response')->begin()->
-    checkElement('div.flash_notice', '/Entrada eliminada: Febrero de 2011/')->
+    checkElement('div.flash_notice', '/Entrada eliminada: Agosto de 2011/')->
   end()->
-  click('Ver', array('guaulog_entrada' => array('mes' => '2',
+  click('Ver', array('guaulog_entrada' => array('mes' => '8',
 						'anio' => '2011'
 						)))->
   with('form')->begin()->
@@ -456,7 +452,7 @@ $browser->
   end()
 ;
 
-$entrada = Doctrine_Core::getTable('GuaulogEntrada')->getEntradaByMesAnio('12', '2010');
+$entrada = Doctrine_Core::getTable('GuaulogEntrada')->getEntradaByMesAnio('7', '2011');
 // Security
 $browser->
   info('6 - The security')->
@@ -494,26 +490,26 @@ $browser->
 
   info('  6.4 - Normal user cannot edit')->
   get('/')->
-  click('Ver', array('guaulog_entrada' => array('mes' => '12',
-						'anio' => '2010'
+  click('Ver', array('guaulog_entrada' => array('mes' => '7',
+						'anio' => '2011'
 						)))->
   followRedirect()->
   with('response')->begin()->
     checkElement('div.editar', false)->
   end()->
-  get('/entrada/12-2010/edit')->
+  get('/entrada/7-2011/edit')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
 
   info('  6.5 - Normal user cannot delete')->
-  call('/entrada/12-2010', 'delete')->
+  call('/entrada/7-2011', 'delete')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
 
   info('  6.6 - Normal user cannot update')->
-  call('/entrada/12-2010', 'put')->
+  call('/entrada/7-2011', 'put')->
   with('response')->begin()->
     isStatusCode(403)->
   end()->
@@ -546,19 +542,19 @@ $browser->
   end()->
 
   info('  6.12 - Guest user cannot edit')->
-  get('/entrada/edit?mes=12&anio=2010')->
+  get('/entrada/edit?mes=7&anio=2011')->
   with('response')->begin()->
     isStatusCode(401)->
   end()->
 
   info('  6.13 - Guest user cannot delete')->
-  call('/entrada/12-2010', 'delete')->
+  call('/entrada/7-2011', 'delete')->
   with('response')->begin()->
     isStatusCode(401)->
   end()->
 
   info('  6.14 - Guest user cannot update')->
-  call('/entrada/12-2010', 'put')->
+  call('/entrada/7-2011', 'put')->
   with('response')->begin()->
     isStatusCode(401)->
   end()->
@@ -566,7 +562,7 @@ $browser->
   info('  6.15 - Guest user cannot create')->
   post('/entrada')->
   with('response')->begin()->
-//    isStatusCode(401)->
+//    isStatusCode(401)-> // apparently, bug in symfony, should give 401 but gives 200 instead
     checkElement('form input[name="signin[username]"]', true)->
     checkElement('form input[name="signin[password]"]', true)->
   end()
