@@ -4,7 +4,7 @@ lib/vendor/symfony
 config/properties.ini
 
 test/fixtures/fase2
-test/fixtures/files/backups
+test/fixtures/files/backup
 
 *~
 
