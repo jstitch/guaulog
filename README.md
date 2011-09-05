@@ -19,6 +19,7 @@ INSTALLATION
 ------------
 
 You need:
+
 - PHP 5
 - MySQL 5
 - Symfony 1.4
